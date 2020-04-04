@@ -10,6 +10,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -29,7 +31,7 @@ import javax.sound.sampled.Clip;
  *
  * @author KOMPUTER
  */
-public class przycisk extends JPanel implements KeyListener{
+public class przycisk extends JPanel implements KeyListener,MouseWheelListener{
     private JPanel panel;
     private JLabel label;
    String[] images={"C:\\Users\\KOMPUTER\\Documents\\NetBeansProjects\\Komponenty\\src\\komponenty\\kupka4.png","C:\\Users\\KOMPUTER\\Documents\\NetBeansProjects\\Komponenty\\src\\komponenty\\kupka3.png","C:\\Users\\KOMPUTER\\Documents\\NetBeansProjects\\Komponenty\\src\\komponenty\\kupka2.png","C:\\Users\\KOMPUTER\\Documents\\NetBeansProjects\\Komponenty\\src\\komponenty\\kupka1.png","C:\\Users\\KOMPUTER\\Documents\\NetBeansProjects\\Komponenty\\src\\komponenty\\kupka.png","C:\\Users\\KOMPUTER\\Documents\\NetBeansProjects\\Komponenty\\src\\komponenty\\kupka5.png","C:\\Users\\KOMPUTER\\Documents\\NetBeansProjects\\Komponenty\\src\\komponenty\\kupka6.png","C:\\Users\\KOMPUTER\\Documents\\NetBeansProjects\\Komponenty\\src\\komponenty\\kupka7.png","C:\\Users\\KOMPUTER\\Documents\\NetBeansProjects\\Komponenty\\src\\komponenty\\kupka8.png"};
@@ -45,7 +47,7 @@ public class przycisk extends JPanel implements KeyListener{
         label.setIcon(imgThisImg);
         addKeyListener(this);
         setFocusable(true);
-       
+       addMouseWheelListener(this);
         
   
         add(label);
@@ -103,9 +105,30 @@ public class przycisk extends JPanel implements KeyListener{
     public void keyReleased(KeyEvent e) {
         
     }
-    
+     public void mouseWheelMoved(MouseWheelEvent e) {
+                System.out.println("MouseWheelListenerDemo.mouseWheelMoved");
+                  
+                // If wheel rotation value is a negative it means rotate up, while
+                // positive value means rotate down
+                if (e.getWheelRotation() < 0) {
+                    if(x==images.length-1){
+                       System.out.print("Przekroczyłeś zakres");
+                   }else{
+                    x++;
+                   PlaySound(Clap);
+               label.setIcon(new ImageIcon(images[x]));
+             System.out.print(x);}
+                } else {
+                    if(x==0){
+                        System.out.print("Przekroczyłeś zakres");
+                    }else{
+                    x--;
+                label.setIcon(new ImageIcon(images[x]));
+               PlaySound(Clap);
+                    }
+                }
    
-} 
+} }
 
 
     
