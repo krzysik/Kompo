@@ -15,8 +15,6 @@ import java.awt.event.MouseWheelListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.lang.System.Logger;
-import java.lang.System.Logger.Level;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -34,27 +32,22 @@ import javax.sound.sampled.Clip;
 public class przycisk extends JPanel implements KeyListener,MouseWheelListener{
     private JPanel panel;
     private JLabel label;
-   String[] images={"C:\\Users\\KOMPUTER\\Documents\\NetBeansProjects\\Komponenty\\src\\komponenty\\kupka4.png","C:\\Users\\KOMPUTER\\Documents\\NetBeansProjects\\Komponenty\\src\\komponenty\\kupka3.png","C:\\Users\\KOMPUTER\\Documents\\NetBeansProjects\\Komponenty\\src\\komponenty\\kupka2.png","C:\\Users\\KOMPUTER\\Documents\\NetBeansProjects\\Komponenty\\src\\komponenty\\kupka1.png","C:\\Users\\KOMPUTER\\Documents\\NetBeansProjects\\Komponenty\\src\\komponenty\\kupka.png","C:\\Users\\KOMPUTER\\Documents\\NetBeansProjects\\Komponenty\\src\\komponenty\\kupka5.png","C:\\Users\\KOMPUTER\\Documents\\NetBeansProjects\\Komponenty\\src\\komponenty\\kupka6.png","C:\\Users\\KOMPUTER\\Documents\\NetBeansProjects\\Komponenty\\src\\komponenty\\kupka7.png","C:\\Users\\KOMPUTER\\Documents\\NetBeansProjects\\Komponenty\\src\\komponenty\\kupka8.png"};
+    String[] images={"kupka4.png","kupka3.png","kupka2.png","kupka1.png","kupka.png","kupka5.png","kupka6.png","kupka7.png","kupka8.png"};
     private File Clap;
     private int x=0;
     public przycisk(){
-        Clap=new File("C:\\Users\\KOMPUTER\\Documents\\NetBeansProjects\\Komponenty\\src\\komponenty\\klik.wav");
+        Clap=new File("E:\\Dev\\CygBacKomp\\Kompo\\src\\komponenty\\klik.wav");
         panel=new JPanel();
         label=new JLabel();
    
         
-        ImageIcon imgThisImg = new ImageIcon(images[0]);
-        label.setIcon(imgThisImg);
+        ImageIcon iconImage = new ImageIcon(this.getClass().getResource(images[0]));
+        label.setIcon(iconImage);
         addKeyListener(this);
+        addMouseWheelListener(this);
         setFocusable(true);
-       addMouseWheelListener(this);
-        
-  
         add(label);
-  
         setVisible(true);
-        
-
     }
 
         
@@ -73,27 +66,28 @@ public class przycisk extends JPanel implements KeyListener,MouseWheelListener{
 
   
     public void keyPressed(KeyEvent e){
-               
-                
-                if(e.getKeyCode() == KeyEvent.VK_UP){
-                   if(x==images.length-1){
-                       System.out.print("Przekroczyłeś zakres");
-                   }else{
-                    x++;
-                   PlaySound(Clap);
-               label.setIcon(new ImageIcon(images[x]));
-             System.out.print(x);
-               
-                   }}
-               
-                else if (e.getKeyCode()==KeyEvent.VK_DOWN){
-                    if(x==0){
-                        System.out.print("Przekroczyłeś zakres");
-                    }else{
-                    x--;
-                label.setIcon(new ImageIcon(images[x]));
-               PlaySound(Clap);
-                    }}
+        
+        if(e.getKeyCode() == KeyEvent.VK_UP){
+            if(x==images.length-1){
+                System.out.print("Przekroczyłeś zakres");
+            }
+            else{
+                x++;
+                PlaySound(Clap);
+                label.setIcon(new ImageIcon(this.getClass().getResource(images[x])));
+                System.out.print(x);
+            }
+        }
+        else if (e.getKeyCode()==KeyEvent.VK_DOWN){
+            if(x==0){
+                System.out.print("Przekroczyłeś zakres");
+            }
+            else{
+                x--;
+                label.setIcon(new ImageIcon(this.getClass().getResource(images[x])));
+                PlaySound(Clap);
+            }
+        }
     }
 
     @Override
@@ -106,29 +100,35 @@ public class przycisk extends JPanel implements KeyListener,MouseWheelListener{
         
     }
      public void mouseWheelMoved(MouseWheelEvent e) {
-                System.out.println("MouseWheelListenerDemo.mouseWheelMoved");
+         
+        System.out.println("MouseWheelListenerDemo.mouseWheelMoved");
                   
-                // If wheel rotation value is a negative it means rotate up, while
-                // positive value means rotate down
-                if (e.getWheelRotation() < 0) {
-                    if(x==images.length-1){
-                       System.out.print("Przekroczyłeś zakres");
-                   }else{
-                    x++;
-                   PlaySound(Clap);
-               label.setIcon(new ImageIcon(images[x]));
-             System.out.print(x);}
-                } else {
-                    if(x==0){
-                        System.out.print("Przekroczyłeś zakres");
-                    }else{
-                    x--;
-                label.setIcon(new ImageIcon(images[x]));
-               PlaySound(Clap);
-                    }
-                }
-   
-} }
+        // If wheel rotation value is a negative it means rotate up, while
+        // positive value means rotate down
+        
+        if (e.getWheelRotation() < 0) {
+            if(x==images.length-1){
+                System.out.print("Przekroczyłeś zakres");
+            }
+            else{
+                x++;
+                PlaySound(Clap);
+                label.setIcon( new ImageIcon(this.getClass().getResource(images[x])));
+                System.out.print(x);
+            }
+        }
+        else {
+            if(x==0){
+                System.out.print("Przekroczyłeś zakres");
+            }
+            else{
+                x--;
+                label.setIcon(new ImageIcon(this.getClass().getResource(images[x])));
+                PlaySound(Clap);
+            }
+        }
+   }
+}
 
 
     
