@@ -32,7 +32,7 @@ import javax.sound.sampled.Clip;
 public class przycisk extends JPanel implements KeyListener,MouseWheelListener{
     private JPanel panel;
     private JLabel label;
-    String[] images={"kupka4.png","kupka3.png","kupka2.png","kupka1.png","kupka.png","kupka5.png","kupka6.png","kupka7.png","kupka8.png"};
+    String[] images={"gora.png","prawogora.png","prawo.png","prawodol.png","dol.png","lewodol.png","lewo.png","lewogora.png"};
     private File Clap;
     private int x=0;
     public przycisk(){
@@ -41,7 +41,7 @@ public class przycisk extends JPanel implements KeyListener,MouseWheelListener{
         label=new JLabel();
    
         
-        ImageIcon iconImage = new ImageIcon(this.getClass().getResource(images[0]));
+        ImageIcon iconImage = new ImageIcon(this.getClass().getResource(images[x]));
         label.setIcon(iconImage);
         addKeyListener(this);
         addMouseWheelListener(this);
