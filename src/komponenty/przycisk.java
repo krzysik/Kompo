@@ -10,7 +10,10 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -29,8 +32,10 @@ public class przycisk extends JPanel implements KeyListener,MouseWheelListener{
     String[] images={"gora.png","prawogora.png","prawo.png","prawodol.png","dol.png","lewodol.png","lewo.png","lewogora.png"};
     private File Clap;
     private int x=0;
+    static URL iconUrl;
     public przycisk(){
-        Clap=new File("E:\\Dev\\CygBacKomp\\Kompo\\src\\komponenty\\klik.wav");
+         iconUrl = this.getClass().getResource("klik.wav");
+
         label=new JLabel();
         label1= new JLabel("jajamiomate");
         label2= new JLabel("jaja");
@@ -93,10 +98,13 @@ public class przycisk extends JPanel implements KeyListener,MouseWheelListener{
 
         
         
-    static void PlaySound(File Sound){
+    static void PlaySound(){
         try{
             Clip clip= AudioSystem.getClip();
-            clip.open(AudioSystem.getAudioInputStream(Sound));
+        AudioInputStream ais = AudioSystem.
+            getAudioInputStream( iconUrl );
+           clip.open(ais);
+    
             clip.start();
             
             Thread.sleep(clip.getMicrosecondLength()/1000);
@@ -114,7 +122,7 @@ public class przycisk extends JPanel implements KeyListener,MouseWheelListener{
             }
             else{
                 x++;
-                PlaySound(Clap);
+                PlaySound();
                 label.setIcon(new ImageIcon(this.getClass().getResource(images[x])));
                 System.out.print(x);
             }
@@ -126,7 +134,7 @@ public class przycisk extends JPanel implements KeyListener,MouseWheelListener{
             else{
                 x--;
                 label.setIcon(new ImageIcon(this.getClass().getResource(images[x])));
-                PlaySound(Clap);
+                PlaySound();
             }
         }
     }
@@ -143,7 +151,7 @@ public class przycisk extends JPanel implements KeyListener,MouseWheelListener{
      public void mouseWheelMoved(MouseWheelEvent e) {
          
         System.out.println("MouseWheelListenerDemo.mouseWheelMoved");
-                  
+        
         // If wheel rotation value is a negative it means rotate up, while
         // positive value means rotate down
         
@@ -153,7 +161,7 @@ public class przycisk extends JPanel implements KeyListener,MouseWheelListener{
             }
             else{
                 x++;
-                PlaySound(Clap);
+                PlaySound();
                 label.setIcon( new ImageIcon(this.getClass().getResource(images[x])));
                 System.out.print(x);
             }
@@ -165,7 +173,7 @@ public class przycisk extends JPanel implements KeyListener,MouseWheelListener{
             else{
                 x--;
                 label.setIcon(new ImageIcon(this.getClass().getResource(images[x])));
-                PlaySound(Clap);
+                PlaySound();
             }
         }
    }
