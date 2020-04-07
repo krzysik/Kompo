@@ -27,7 +27,8 @@ import javax.sound.sampled.Clip;
 public class przycisk extends JPanel implements KeyListener,MouseWheelListener{
     private double min, max, roznica, scale;
     private double maxScale, minScale;
-    private JLabel label, label1,label2,label3,label4,label5,label6,label7,label8, labelmin, labelmax;
+    private String jednostka;
+    private JLabel label, label1,label2,label3,label4,label5,label6,label7,label8, labelmin, labelmax,labeljed;
     private JLabel[] labele; 
     String[] images={"gora.png","prawogora.png","prawo.png","prawodol.png","dol.png","lewodol.png","lewo.png","lewogora.png"};
     private File Clap;
@@ -48,6 +49,7 @@ public class przycisk extends JPanel implements KeyListener,MouseWheelListener{
         labelmin= new JLabel("min");
         labelmax = new JLabel("max");
         labele = new JLabel[]{label1,label2,label3,label4,label5,label6,label7,label8};
+        labeljed=new JLabel();
         setLayout(new GridLayout(3, 3));
         ImageIcon iconImage = new ImageIcon(this.getClass().getResource(images[x]));
         label.setIcon(iconImage);
@@ -67,7 +69,13 @@ public class przycisk extends JPanel implements KeyListener,MouseWheelListener{
         setVisible(true);
        
     }
-
+ public String getJednostka(){
+        return jednostka;
+    }
+    public void setJednostka(String jednostka){
+        this.jednostka=jednostka;
+        labeljed.setText(String.valueOf(jednostka));
+    }
     public double getMaxScale() {
         return maxScale;
     }
@@ -77,6 +85,7 @@ public class przycisk extends JPanel implements KeyListener,MouseWheelListener{
         labelmax.setText(String.valueOf(maxScale));
 
     }
+   
 
     public double getMinScale() {
         return minScale;
@@ -89,7 +98,7 @@ public class przycisk extends JPanel implements KeyListener,MouseWheelListener{
         scale = roznica/8;
         for(int i=0;i<8;i++)
         {
-            labele[i].setText(""+((i+1)*scale+ Double.parseDouble(labelmin.getText()))); 
+            labele[i].setText(""+((i+1)*scale+ Double.parseDouble(labelmin.getText())+labeljed.getText())); 
             
         }
     }
