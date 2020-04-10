@@ -23,6 +23,7 @@ import javax.swing.JPanel;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.swing.SwingConstants;
 
 public class przycisk extends JPanel implements KeyListener,MouseWheelListener{
     private double min, max, roznica, scale;
@@ -38,14 +39,22 @@ public class przycisk extends JPanel implements KeyListener,MouseWheelListener{
          iconUrl = this.getClass().getResource("klik.wav");
 
         label=new JLabel();
-        label1= new JLabel("jajamiomate");
-        label2= new JLabel("jaja");
-        label3= new JLabel("jaja");
-        label4= new JLabel("jaja");
-        label5= new JLabel("jaja");
-        label6= new JLabel("jaja");
-        label7= new JLabel("jaja");
-        label8= new JLabel("jaja");
+        label1= new JLabel("0",SwingConstants.CENTER);
+        
+        label1.setVerticalAlignment(JLabel.BOTTOM);
+        label2= new JLabel("0",SwingConstants.LEFT);
+         
+        label2.setVerticalAlignment(JLabel.BOTTOM);
+        label3= new JLabel("0",SwingConstants.LEFT);
+        label4= new JLabel("0",SwingConstants.LEFT);
+        label4.setVerticalAlignment(JLabel.TOP);
+        label5= new JLabel("0",SwingConstants.CENTER);
+        label5.setVerticalAlignment(JLabel.TOP);
+        label6= new JLabel("0",SwingConstants.RIGHT);
+        label6.setVerticalAlignment(JLabel.TOP);
+        label7= new JLabel("0",SwingConstants.RIGHT);
+        label8= new JLabel("0",SwingConstants.RIGHT);
+        label8.setVerticalAlignment(JLabel.BOTTOM);
         labelmin= new JLabel("min");
         labelmax = new JLabel("max");
         labele = new JLabel[]{label1,label2,label3,label4,label5,label6,label7,label8};
@@ -96,6 +105,7 @@ public class przycisk extends JPanel implements KeyListener,MouseWheelListener{
         labelmin.setText(String.valueOf(minScale));
         roznica = Double.parseDouble(labelmax.getText()) - Double.parseDouble(labelmin.getText());
         scale = roznica/8;
+        
         for(int i=0;i<8;i++)
         {
             labele[i].setText(""+((i+1)*scale+ Double.parseDouble(labelmin.getText())+labeljed.getText())); 
