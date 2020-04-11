@@ -1,5 +1,6 @@
 package komponenty;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -38,11 +39,14 @@ public class przycisk extends JPanel implements KeyListener,MouseWheelListener{
     private File Clap;
     private int x=0;
     private int czas=0;
+   private String kolorek;
+   
     static URL iconUrl;
     public przycisk(){
          iconUrl = this.getClass().getResource("klik.wav");
 
         label=new JLabel();
+        
         label1= new JLabel("0",SwingConstants.CENTER);
         
         label1.setVerticalAlignment(JLabel.BOTTOM);
@@ -70,6 +74,7 @@ public class przycisk extends JPanel implements KeyListener,MouseWheelListener{
         addMouseWheelListener(this);
         setFocusable(true);
         
+        
         add(label8);
         add(label1);
         add(label2);
@@ -88,6 +93,7 @@ public class przycisk extends JPanel implements KeyListener,MouseWheelListener{
     public void setJednostka(String jednostka){
         this.jednostka=jednostka;
         labeljed.setText(String.valueOf(jednostka));
+        
     }
     public double getMaxScale() {
         return maxScale;
@@ -110,6 +116,13 @@ public class przycisk extends JPanel implements KeyListener,MouseWheelListener{
     public double getMinScale() {
         return minScale;
     }
+    public String getKolor(){
+        return kolorek;
+    }
+    public void setKolor(String kolorek){
+        this.kolorek=kolorek;
+        
+    }
 
     public void setMinScale(double minScale) {
         this.minScale = minScale;
@@ -119,7 +132,7 @@ public class przycisk extends JPanel implements KeyListener,MouseWheelListener{
         
         for(int i=0;i<8;i++)
         {
-            labele[i].setText(""+((i+1)*scale+ Double.parseDouble(labelmin.getText())+labeljed.getText())); 
+            labele[i].setText(""+"<html><font color='"+kolorek+"'>"+((i+1)*scale+ Double.parseDouble(labelmin.getText())+labeljed.getText())+"</font></html>"); 
             
         }
     }
@@ -186,6 +199,7 @@ public class przycisk extends JPanel implements KeyListener,MouseWheelListener{
     public void keyTyped(KeyEvent e) {
         
     }
+    
 
     @Override
     public void keyReleased(KeyEvent e) {
