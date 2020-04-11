@@ -1,6 +1,8 @@
 package komponenty;
 
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -24,6 +26,7 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.SwingConstants;
+import javax.swing.Timer;
 
 public class przycisk extends JPanel implements KeyListener,MouseWheelListener{
     private double min, max, roznica, scale;
@@ -34,6 +37,7 @@ public class przycisk extends JPanel implements KeyListener,MouseWheelListener{
     String[] images={"gora.png","prawogora.png","prawo.png","prawodol.png","dol.png","lewodol.png","lewo.png","lewogora.png"};
     private File Clap;
     private int x=0;
+    private int czas=0;
     static URL iconUrl;
     public przycisk(){
          iconUrl = this.getClass().getResource("klik.wav");
@@ -94,6 +98,13 @@ public class przycisk extends JPanel implements KeyListener,MouseWheelListener{
         labelmax.setText(String.valueOf(maxScale));
 
     }
+    
+    public int getCzas(){
+        return czas;
+    }
+    public void setCzas(int czas){
+        this.czas=czas;
+    }
    
 
     public double getMinScale() {
@@ -133,9 +144,12 @@ public class przycisk extends JPanel implements KeyListener,MouseWheelListener{
     }
 
   
+  
     public void keyPressed(KeyEvent e){
-        
+         
         if(e.getKeyCode() == KeyEvent.VK_UP){
+            Timer timer = new Timer(czas, new ActionListener() {
+             public void actionPerformed(ActionEvent arg0) {
             if(x==images.length-1){
                 System.out.print("Przekroczyłeś zakres");
             }
@@ -146,8 +160,14 @@ public class przycisk extends JPanel implements KeyListener,MouseWheelListener{
                 System.out.print(x);
             }
         }
-        else if (e.getKeyCode()==KeyEvent.VK_DOWN){
-            if(x==0){
+             
+             });
+         timer.setRepeats(false); // Only execute once
+         timer.start(); // Go go go!
+    }else if (e.getKeyCode()==KeyEvent.VK_DOWN){
+            Timer timer2 = new Timer(czas,new ActionListener(){
+                public void actionPerformed(ActionEvent arg0){
+                     if(x==0){
                 System.out.print("Przekroczyłeś zakres");
             }
             else{
@@ -155,6 +175,10 @@ public class przycisk extends JPanel implements KeyListener,MouseWheelListener{
                 label.setIcon(new ImageIcon(this.getClass().getResource(images[x])));
                 PlaySound();
             }
+                }
+                });
+           timer2.setRepeats(false);
+           timer2.start();
         }
     }
 
@@ -169,12 +193,16 @@ public class przycisk extends JPanel implements KeyListener,MouseWheelListener{
     }
      public void mouseWheelMoved(MouseWheelEvent e) {
          
-        System.out.println("MouseWheelListenerDemo.mouseWheelMoved");
+      
         
         // If wheel rotation value is a negative it means rotate up, while
         // positive value means rotate down
-        
+        Timer timer=new Timer(czas,new ActionListener(){
+           public void actionPerformed(ActionEvent arg0){
+               
+         
         if (e.getWheelRotation() < 0) {
+            
             if(x==images.length-1){
                 System.out.print("Przekroczyłeś zakres");
             }
@@ -195,6 +223,10 @@ public class przycisk extends JPanel implements KeyListener,MouseWheelListener{
                 PlaySound();
             }
         }
+          } 
+        });
+        timer.setRepeats(false);
+        timer.start();
    }
 }
 
