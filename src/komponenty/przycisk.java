@@ -4,9 +4,15 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -34,10 +40,10 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
-public class przycisk extends JPanel implements KeyListener,MouseWheelListener{
+public class przycisk extends JPanel implements KeyListener,MouseWheelListener,ComponentListener{
     private double min, max, roznica, scale;
     private double componentMaxScale, componentMinScale;
-    private Color componentBackColor, componentFontColor;
+    private Color componentBackColor, componentFontColor,resultFontColor,resultBackColor;
     private JTextField resultTF;
     private String componentUnit;
     private JPanel multimetrPanel, switchPanel, onePanel, twoPanel, threePanel, fourPanel, fivePanel, sixPanel, sevenPanel, eightPanel;
@@ -45,6 +51,7 @@ public class przycisk extends JPanel implements KeyListener,MouseWheelListener{
     private JLabel jed1, jed2, jed3, jed4, jed5, jed6, jed7, jed8;
     private JLabel[] labele;
     private JLabel[] jednostki;
+    private ImageIcon iconImage;
     String[] images={"gora.png","prawogora.png","prawo.png","prawodol.png","dol.png","lewodol.png","lewo.png","lewogora.png"};
     private File Clap;
     private int x=0;
@@ -52,11 +59,16 @@ public class przycisk extends JPanel implements KeyListener,MouseWheelListener{
     private double componentMeasuredValue;
    
     static URL iconUrl;
+    static URL soundUrl;
     public przycisk(){
         iconUrl = this.getClass().getResource("klik.wav");
+        soundUrl= this.getClass().getResource("success.wav");
         
         multimetrPanel= new JPanel();
         multimetrPanel.setLayout(new BorderLayout());
+        multimetrPanel.setSize(new Dimension(this.getWidth(),this.getHeight()));
+        addComponentListener(this);
+       
         
         onePanel = new JPanel();
         onePanel.setLayout(new FlowLayout());
@@ -84,6 +96,7 @@ public class przycisk extends JPanel implements KeyListener,MouseWheelListener{
 
         switchPanel = new JPanel();
         switchPanel.setLayout(new GridLayout(3, 3));
+        switchPanel.setSize(this.getWidth(),this.getHeight());
 
         jed1=new JLabel();
         jed2=new JLabel();
@@ -104,6 +117,7 @@ public class przycisk extends JPanel implements KeyListener,MouseWheelListener{
         
         label=new JLabel();
         label1= new JLabel();
+       
         label2= new JLabel();
         label3= new JLabel();
         label4= new JLabel();
@@ -111,11 +125,37 @@ public class przycisk extends JPanel implements KeyListener,MouseWheelListener{
         label6= new JLabel();
         label7= new JLabel();
         label8= new JLabel();
+         label1.setSize(new Dimension(this.getWidth()/5,this.getHeight()/5));
+            label2.setSize(new Dimension(this.getWidth()/5,this.getHeight()/5));
+            label3.setSize(new Dimension(this.getWidth()/5,this.getHeight()/5));
+            label4.setSize(new Dimension(this.getWidth()/5,this.getHeight()/5));
+            label5.setSize(new Dimension(this.getWidth()/5,this.getHeight()/5));
+            label6.setSize(new Dimension(this.getWidth()/5,this.getHeight()/5));
+            label7.setSize(new Dimension(this.getWidth()/5,this.getHeight()/5));
+            label8.setSize(new Dimension(this.getWidth()/5,this.getHeight()/5));
+        label7.setHorizontalAlignment(SwingConstants.RIGHT);
+        label3.setHorizontalAlignment(SwingConstants.LEFT);
+        label1.setVerticalAlignment(SwingConstants.BOTTOM);
+        jed1.setVerticalAlignment(SwingConstants.BOTTOM);
+        jed2.setVerticalAlignment(SwingConstants.BOTTOM);
+        label1.setHorizontalAlignment(SwingConstants.CENTER);
+        label5.setHorizontalAlignment(SwingConstants.CENTER);
+        jed6.setVerticalAlignment(SwingConstants.TOP);
+        jed7.setVerticalAlignment(SwingConstants.TOP);
+        jed8.setVerticalAlignment(SwingConstants.TOP);
+        label5.setVerticalAlignment(SwingConstants.TOP);
+        label6.setVerticalAlignment(SwingConstants.TOP);
+        label6.setHorizontalAlignment(SwingConstants.RIGHT);
+        label8.setVerticalAlignment(SwingConstants.BOTTOM);
+        label8.setHorizontalAlignment(SwingConstants.RIGHT);
+        label2.setVerticalAlignment(SwingConstants.BOTTOM);
+        label4.setVerticalAlignment(SwingConstants.TOP);
+        jed3.setVerticalAlignment(SwingConstants.BOTTOM);
         labelmin= new JLabel("min");
         labelmax = new JLabel("max");
         labele = new JLabel[]{label1,label2,label3,label4,label5,label6,label7,label8};
 
-        ImageIcon iconImage = new ImageIcon(this.getClass().getResource(images[x]));
+        iconImage = new ImageIcon(this.getClass().getResource(images[x]));
         label.setIcon(iconImage);
         addKeyListener(this);
         addMouseWheelListener(this);
@@ -153,6 +193,7 @@ public class przycisk extends JPanel implements KeyListener,MouseWheelListener{
         multimetrPanel.add(resultTF, BorderLayout.NORTH);
         //setVisible(true);
         add(multimetrPanel);
+       
        
     }
 
@@ -224,12 +265,25 @@ public class przycisk extends JPanel implements KeyListener,MouseWheelListener{
             labele[i].setFont(labele[i].getFont().deriveFont(32f));
             jednostki[i].setForeground(componentFontColor);
             jednostki[i].setFont(jednostki[i].getFont().deriveFont(32f));
-            labele[i].setBorder(BorderFactory.createEmptyBorder(50, 0, 0, 0));
-            jednostki[i].setBorder(BorderFactory.createEmptyBorder(50, 0, 0, 0));
+            labele[i].setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
+            jednostki[i].setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
         }
     }
 
-
+    public void setResultFontColor(Color resultFontColor){
+        this.resultFontColor=resultFontColor;
+        resultTF.setForeground(resultFontColor);
+    }
+    public Color getResultFontColor(){
+        return resultFontColor;
+    }
+    public Color getResultBackColor(){
+        return resultBackColor;
+    }
+    public void setResultBackColor(Color resultBackColor){
+        this.resultBackColor=resultBackColor;
+        resultTF.setBackground(resultBackColor);
+    }
     public Color getComponentBackColor() {
         return componentBackColor;
     }
@@ -259,6 +313,18 @@ public class przycisk extends JPanel implements KeyListener,MouseWheelListener{
             e.printStackTrace();
         }
     }
+    
+    static void PlaySound2(){
+        try{
+            Clip clip = AudioSystem.getClip();
+            AudioInputStream ais = AudioSystem.getAudioInputStream(soundUrl);
+            clip.open(ais);
+            clip.start();
+            Thread.sleep(clip.getMicrosecondLength()/2000);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
 
   
   
@@ -273,11 +339,15 @@ public class przycisk extends JPanel implements KeyListener,MouseWheelListener{
             else{
                 x++;
                 PlaySound();
-                label.setIcon(new ImageIcon(this.getClass().getResource(images[x])));
+                iconImage=new ImageIcon(this.getClass().getResource(images[x]));
+                Image img1= iconImage.getImage();
+                Image img2= img1.getScaledInstance(label.getWidth(),label.getHeight(),Image.SCALE_SMOOTH);
+                ImageIcon i=new ImageIcon(img2);
+                label.setIcon(i);
                 if(componentMeasuredValue >= Double.parseDouble(labele[x].getText())){
                     
                    resultTF.setText(String.valueOf(labele[x].getText())); 
-                
+                   PlaySound2();
                 }else if((componentMeasuredValue < Double.parseDouble(labele[x].getText()))&& componentMeasuredValue > Double.parseDouble(labelmin.getText())){
                 
                     resultTF.setText(String.valueOf(componentMeasuredValue)); 
@@ -297,18 +367,23 @@ public class przycisk extends JPanel implements KeyListener,MouseWheelListener{
             }
             else{
                 x--;
-                label.setIcon(new ImageIcon(this.getClass().getResource(images[x])));
+                PlaySound();
+                iconImage=new ImageIcon(this.getClass().getResource(images[x]));
+                Image img1= iconImage.getImage();
+                Image img2= img1.getScaledInstance(label.getWidth(),label.getHeight(),Image.SCALE_SMOOTH);
+                ImageIcon i=new ImageIcon(img2);
+                label.setIcon(i);
                 if(componentMeasuredValue >= Double.parseDouble(labele[x].getText())){
                     
                    resultTF.setText(String.valueOf(labele[x].getText())); 
-                
+                  PlaySound2();
                 }else if((componentMeasuredValue < Double.parseDouble(labele[x].getText()))&& componentMeasuredValue > Double.parseDouble(labelmin.getText())){
                 
                     resultTF.setText(String.valueOf(componentMeasuredValue)); 
-                
+                 
                 }
                 
-                PlaySound();
+                
             }
                 }
                 });
@@ -345,11 +420,15 @@ public class przycisk extends JPanel implements KeyListener,MouseWheelListener{
             else{
                 x++;
                 PlaySound();
-                label.setIcon( new ImageIcon(this.getClass().getResource(images[x])));
+              iconImage=new ImageIcon(this.getClass().getResource(images[x]));
+                Image img1= iconImage.getImage();
+                Image img2= img1.getScaledInstance(label.getWidth(),label.getHeight(),Image.SCALE_SMOOTH);
+                ImageIcon i=new ImageIcon(img2);
+                label.setIcon(i);
                 if(componentMeasuredValue >= Double.parseDouble(labele[x].getText())){
                     
                    resultTF.setText(String.valueOf(labele[x].getText())); 
-                
+                PlaySound2();
                 }else if((componentMeasuredValue < Double.parseDouble(labele[x].getText()))&& componentMeasuredValue > Double.parseDouble(labelmin.getText())){
                 
                     resultTF.setText(String.valueOf(componentMeasuredValue)); 
@@ -364,17 +443,22 @@ public class przycisk extends JPanel implements KeyListener,MouseWheelListener{
             }
             else{
                 x--;
-                label.setIcon(new ImageIcon(this.getClass().getResource(images[x])));
+                 PlaySound();
+           iconImage=new ImageIcon(this.getClass().getResource(images[x]));
+                Image img1= iconImage.getImage();
+                Image img2= img1.getScaledInstance(label.getWidth(),label.getHeight(),Image.SCALE_SMOOTH);
+                ImageIcon i=new ImageIcon(img2);
+                label.setIcon(i);
                 if(componentMeasuredValue >= Double.parseDouble(labele[x].getText())){
                     
                    resultTF.setText(String.valueOf(labele[x].getText())); 
-                
+                PlaySound2();
                 }else if((componentMeasuredValue < Double.parseDouble(labele[x].getText()))&& componentMeasuredValue > Double.parseDouble(labelmin.getText())){
                 
                     resultTF.setText(String.valueOf(componentMeasuredValue)); 
                 
                 }
-                PlaySound();
+               
             }
         }
           } 
@@ -382,6 +466,59 @@ public class przycisk extends JPanel implements KeyListener,MouseWheelListener{
         timer.setRepeats(false);
         timer.start();
    }
+
+    @Override
+    public void componentResized(ComponentEvent e) {
+        resultTF.setPreferredSize(new Dimension(this.getWidth(), 40));
+        multimetrPanel.setPreferredSize(new Dimension(this.getWidth(),this.getHeight()));
+        
+      
+       label.setPreferredSize(new Dimension(this.getWidth(),this.getHeight()));
+       Image img1= iconImage.getImage();
+       Image img2= img1.getScaledInstance(label.getWidth(),label.getHeight(),Image.SCALE_SMOOTH);
+       ImageIcon i=new ImageIcon(img2);
+       label.setIcon(i);
+            label1.setPreferredSize(new Dimension(81,this.getHeight()/5));
+            label2.setPreferredSize(new Dimension(81,this.getHeight()/5));
+            label3.setPreferredSize(new Dimension(81,this.getHeight()/5));
+            label4.setPreferredSize(new Dimension(81,this.getHeight()/5));
+            label5.setPreferredSize(new Dimension(81,this.getHeight()/5));
+            label6.setPreferredSize(new Dimension(this.getWidth()/5,this.getHeight()/5));
+            label7.setPreferredSize(new Dimension(this.getWidth()/5,this.getHeight()/5));
+            label8.setPreferredSize(new Dimension(this.getWidth()/5,this.getHeight()/5));
+            jed1.setPreferredSize(new Dimension(21,this.getHeight()/5));
+            jed2.setPreferredSize(new Dimension(21,this.getHeight()/5));
+            jed3.setPreferredSize(new Dimension(21,this.getHeight()/5));
+            jed4.setPreferredSize(new Dimension(21,this.getHeight()/5));
+            jed5.setPreferredSize(new Dimension(21,this.getHeight()/5));
+            jed6.setPreferredSize(new Dimension(21,this.getHeight()/5));
+            jed7.setPreferredSize(new Dimension(21,this.getHeight()/5));
+            jed8.setPreferredSize(new Dimension(21,this.getHeight()/5));
+            System.out.print(label1.getSize());
+        //int k;
+      //  k = (this.getWidth()/42)+32;
+    //   String z=Integer.toString(k)+"f";
+   //    System.out.print(z);
+      
+    }
+
+    @Override
+    public void componentMoved(ComponentEvent e) {
+       
+    }
+
+    @Override
+    public void componentShown(ComponentEvent e) {
+     
+    }
+
+    @Override
+    public void componentHidden(ComponentEvent e) {
+        
+    }
+
+   
+   
 }
 
 
