@@ -58,6 +58,7 @@ public class przycisk extends JPanel implements KeyListener,MouseWheelListener,C
     private int componentDelayTime=0;
     private double componentMeasuredValue;
     private float componentFontSize;
+    
    
     static URL iconUrl;
     static URL soundUrl;
@@ -308,10 +309,11 @@ public class przycisk extends JPanel implements KeyListener,MouseWheelListener,C
                         label.setIcon(i);
                         if(componentMeasuredValue >= Double.parseDouble(labele[x].getText())){
                            resultTF.setText(String.valueOf(labele[x].getText())); 
-                           PlaySound2();
+                           
                         }
                         else if((componentMeasuredValue < Double.parseDouble(labele[x].getText()))&& componentMeasuredValue > Double.parseDouble(labelmin.getText())){
                             resultTF.setText(String.valueOf(componentMeasuredValue)); 
+                            PlaySound2();
                         }
                     }
                 }
@@ -335,10 +337,11 @@ public class przycisk extends JPanel implements KeyListener,MouseWheelListener,C
                         label.setIcon(i);
                         if(componentMeasuredValue >= Double.parseDouble(labele[x].getText())){
                            resultTF.setText(String.valueOf(labele[x].getText())); 
-                           PlaySound2();
+                           
                         }
                         else if((componentMeasuredValue < Double.parseDouble(labele[x].getText()))&& componentMeasuredValue > Double.parseDouble(labelmin.getText())){
-                            resultTF.setText(String.valueOf(componentMeasuredValue)); 
+                            resultTF.setText(String.valueOf(componentMeasuredValue));
+                            PlaySound2();
                         }
                     }
                 }
@@ -371,10 +374,11 @@ public class przycisk extends JPanel implements KeyListener,MouseWheelListener,C
                     label.setIcon(i);
                     if(componentMeasuredValue >= Double.parseDouble(labele[x].getText())){
                         resultTF.setText(String.valueOf(labele[x].getText())); 
-                        PlaySound2();
+                        
                     }
                     else if((componentMeasuredValue < Double.parseDouble(labele[x].getText()))&& componentMeasuredValue > Double.parseDouble(labelmin.getText())){
                         resultTF.setText(String.valueOf(componentMeasuredValue)); 
+                        PlaySound2();
                     }
                 }
             }
@@ -392,10 +396,11 @@ public class przycisk extends JPanel implements KeyListener,MouseWheelListener,C
                 label.setIcon(i);
                 if(componentMeasuredValue >= Double.parseDouble(labele[x].getText())){
                    resultTF.setText(String.valueOf(labele[x].getText())); 
-                   PlaySound2();
+                   
                 }
                 else if((componentMeasuredValue < Double.parseDouble(labele[x].getText()))&& componentMeasuredValue > Double.parseDouble(labelmin.getText())){
                     resultTF.setText(String.valueOf(componentMeasuredValue));
+                    PlaySound2();
                 }
             }
         }
@@ -407,11 +412,13 @@ public class przycisk extends JPanel implements KeyListener,MouseWheelListener,C
 
     @Override
     public void componentResized(ComponentEvent e) {
+        
         resultTF.setPreferredSize(new Dimension(getWidth(),(int) (getHeight()*0.1)));
         jed1.setPreferredSize(new Dimension(getWidth(), (int)(getHeight()*0.1)));
         multimetrPanel.setPreferredSize(new Dimension(getWidth(),getHeight()));
         switchPanel.setPreferredSize(new Dimension(multimetrPanel.getWidth(),(int)(multimetrPanel.getHeight()*0.8)));
-        label.setPreferredSize(new Dimension(switchPanel.getWidth()/3, switchPanel.getHeight()/3));
+//        label.setPreferredSize(new Dimension(switchPanel.getWidth()/3, switchPanel.getHeight()/3));
+        label.setPreferredSize(new Dimension(photoPanel.getWidth(), photoPanel.getHeight()));
         Image img1= iconImage.getImage();
         Image img2= img1.getScaledInstance(label.getWidth(),label.getHeight(),Image.SCALE_SMOOTH);
         ImageIcon img=new ImageIcon(img2);
